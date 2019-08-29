@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>罵声でぶちのめせ！ featuring with oseti</title>
+    <meta http-equiv="content-type" charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<div style="text-align: center;">
+<h2>罵声でぶちのめせ！ featuring with oseti</h2>
+    このゲ－ムは罵声を戦わせることができるゲ－ムです。<br>
+    言葉は武器だ！！さあ罵声をあびせろ！！20連勝以上で殿堂入りします<br>
+    日本語評価極性辞書を利用したPython用Sentiment Analysisライブラリ <b><a href="https://github.com/ikegami-yukino/oseti">oseti</a></b>を使って罵声度を測ってます。<br><br>
+    現在全<div style="color:red; display: inline-block; _display: inline;">{{total}}</div>戦<br><br>
+    現チャンピオン<br>
+    名前 {{name}}<br><br>
+    <span style="font-size: x-large; color: red; "> 「{{jeer}}」 </span><br>
+    現在{{streak}}連勝中<br><br>
+    <form id="battle" action="/battle" method="post" enctype="multipart/form-data">
+        <label>
+            名前 <input size="20" name="name" type="text"/>
+        </label>
+        <br>あなたの罵声<br>
+        <label>
+            <input size="60" name="jeer" type="text"/><br>
+        </label>
+        <br><INPUT type="submit" value="戦う！"><br>
+    </form>
+</div>
+</body>
+</html>
