@@ -31,18 +31,31 @@ api = responder.API(
     license={"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
 )
 
+dbname = 'database.db'
+
 
 @api.route("/")
 def hello_html(_, resp):
-    resp.html = api.template("index.html", champ_name="aaa", champ_jeer="bbb", streak=14, total=100)
+    champ = get_jeer_champ()
+    logging.info(champ)
+    resp.html = api.template("index.html", champ_name=champ[1], champ_jeer=champ[2], streak=champ[4], total=100)
 
 
 @api.route("/battle")
 def battle(req, resp):
+    champ = get_jeer_champ()
+    champ_name = champ[1]
+    champ_jeer = champ[2]
+    champ_score = champ[3]
     name = req.params.get("name", "")
     jeer = req.params.get("jeer", "")
     score = analyze(jeer)
-    resp.media = {"score": score}
+    insert_jeer(name, jeer, score)
+    if champ_score >= score:
+        result = "チャンピオンの勝ち"
+    else:
+        result = "挑戦者の勝ち"
+    resp.html = api.template("battle.html", name=name, jeer=jeer, score=score, champ_name=champ_name, champ_jeer=champ_jeer, champ_score=champ_score, result=result)
 
 
 def analyze(jeer):
@@ -51,6 +64,34 @@ def analyze(jeer):
     logging.info(scores)
     mean_score = mean(scores)
     return mean_score
+
+
+def insert_jeer(name, jeer, score):
+    with closing(sqlite3.connect(dbname)) as conn:
+        c = conn.cursor()
+        create_table = """
+        CREATE TABLE IF NOT EXISTS jeers (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR NOT NULL, jeer VARCHAR, score INTEGER NOT NULL, streak INTEGER);
+        """
+        c.execute(create_table)
+        sql = "INSERT INTO jeers (name, jeer, score, streak) VALUES (?,?,?,?)"
+        record = (name, jeer, score, 1)
+        c.execute(sql, record)
+        conn.commit()
+
+
+def get_jeer_champ():
+    with closing(sqlite3.connect(dbname)) as conn:
+        c = conn.cursor()
+        create_table = """
+        CREATE TABLE IF NOT EXISTS jeers (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name VARCHAR NOT NULL, jeer VARCHAR, score INTEGER NOT NULL, streak INTEGER);
+        """
+        c.execute(create_table)
+        conn.commit()
+        sql = "SELECT * FROM jeers ORDER BY score DESC"
+        c.execute(sql)
+        champ = c.fetchone()
+        conn.commit()
+        return champ
 
 
 if __name__ == "__main__":
