@@ -1,5 +1,10 @@
 import os
+from statistics import mean
+import logging
 import responder
+import sqlite3
+from contextlib import closing
+import oseti
 
 from __init__ import __version__
 
@@ -28,8 +33,24 @@ api = responder.API(
 
 
 @api.route("/")
-def hello_html(req, resp):
-    resp.html = api.template("index.html", name="aaa", jeer="bbb", streak=14, total=100)
+def hello_html(_, resp):
+    resp.html = api.template("index.html", champ_name="aaa", champ_jeer="bbb", streak=14, total=100)
+
+
+@api.route("/battle")
+def battle(req, resp):
+    name = req.params.get("name", "")
+    jeer = req.params.get("jeer", "")
+    score = analyze(jeer)
+    resp.media = {"score": score}
+
+
+def analyze(jeer):
+    analyzer = oseti.Analyzer()
+    scores = analyzer.analyze(jeer)
+    logging.info(scores)
+    mean_score = mean(scores)
+    return mean_score
 
 
 if __name__ == "__main__":

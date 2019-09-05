@@ -16,10 +16,10 @@
     日本語評価極性辞書を利用したPython用Sentiment Analysisライブラリ <b><a href="https://github.com/ikegami-yukino/oseti">oseti</a></b>を使って罵声度を測ってます。<br><br>
     現在全<div style="color:red; display: inline-block; _display: inline;">{{total}}</div>戦<br><br>
     現チャンピオン<br>
-    名前 {{name}}<br><br>
-    <span style="font-size: x-large; color: red; "> 「{{jeer}}」 </span><br>
+    名前 {{champ_name}}<br><br>
+    <span style="font-size: x-large; color: red; "> 「{{champ_jeer}}」 </span><br>
     現在{{streak}}連勝中<br><br>
-    <form id="battle" action="/battle" method="post" enctype="multipart/form-data">
+    <form id="battle" action="/battle" method="get">
         <label>
             名前 <input size="20" name="name" type="text"/>
         </label>
