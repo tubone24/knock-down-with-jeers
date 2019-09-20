@@ -23,3 +23,7 @@ WORKDIR /opt
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
 WORKDIR /opt/mecab-ipadic-neologd
 RUN ./bin/install-mecab-ipadic-neologd -n -y
+WORKDIR /opt
+RUN git clone https://github.com/tubone24/knock-down-with-jeers.git
+WORKDIR /opt/knock-down-with-jeers
+RUN pip3 install -r requirements.txt
